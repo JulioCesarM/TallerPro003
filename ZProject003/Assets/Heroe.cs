@@ -9,17 +9,17 @@ using UnityEngine;
 public class Heroe : MonoBehaviour
 {
     private IEnumerator movCo;
-    float vel;
 
     public void Start()
     {
+        AsignarVelocidad AsignarVelocidad = new AsignarVelocidad();
         gameObject.AddComponent<Camera>();
+        gameObject.AddComponent<AldeanoCollision>();
         Rigidbody playerRigid = gameObject.AddComponent<Rigidbody>();
         playerRigid.useGravity = false;
         playerRigid.constraints = RigidbodyConstraints.FreezeAll;
-        movCo = Acciones();
+        movCo = Acciones(AsignarVelocidad.vel);
         tag = "Player";
-        vel = Random.Range(0.2f, 0.5f);
         StartCoroutine(movCo);
     }
 
@@ -27,7 +27,7 @@ public class Heroe : MonoBehaviour
     /// Esta corrutina se encarga de asignar las clases movimiento y rotacion, aparte de ejecutarlas cada frame
     /// </summary>
     /// <returns></returns>
-    public IEnumerator Acciones()
+    public IEnumerator Acciones(float vel)
     {
 
         Movimiento movimiento = new Movimiento();
@@ -41,6 +41,13 @@ public class Heroe : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
     }
+}
+/// <summary>
+/// Aigna una velocidad random al Heroe
+/// </summary>
+class AsignarVelocidad
+{
+    public readonly float vel = Random.Range(0.2f,0.5f);
 }
 
 /// <summary>
